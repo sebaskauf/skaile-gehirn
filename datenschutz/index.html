@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datenschutz - SKAILE AI Consulting</title>
+<meta name="description" content="Datenschutzerklärung nach Art. 13 DSGVO - SKAILE AI Consulting.">
+<meta name="robots" content="noindex, follow">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:           #FAFAF7;
+  --bg-elevated:  #FFFFFF;
+  --bg-card:      #F4F1EA;
+  --bg-dark:      #141413;
+  --ink:          #1A1A1A;
+  --ink-muted:    #5A554D;
+  --ink-light:    #8A8378;
+  --on-dark:      #FAFAF7;
+  --on-dark-mute: rgba(250, 250, 247, 0.7);
+  --line:         #E5E0D2;
+  --line-strong:  #BFB8A8;
+  --coral:        #CC785C;
+  --font-serif:   'Newsreader', 'Iowan Old Style', Georgia, serif;
+  --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'SF Mono', Menlo, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap-narrow { max-width: 760px; margin: 0 auto; padding: 0 32px; }
+@media (max-width: 768px) { .wrap-narrow { padding: 0 20px; } }
+
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250, 250, 247, 0.96);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+@media (max-width: 768px) { header { background: var(--bg); } }
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 32px; max-width: 1280px; margin: 0 auto;
+}
+.logo {
+  font-family: var(--font-serif); font-size: 22px; font-weight: 500;
+  color: var(--ink); text-decoration: none; letter-spacing: -0.01em;
+}
+.logo em { font-style: italic; color: var(--coral); }
+.back-link {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  color: var(--ink-muted); text-decoration: none; letter-spacing: 0.02em;
+  transition: color 0.15s;
+}
+.back-link:hover { color: var(--ink); }
+
+.legal-page { padding: 80px 0 120px; }
+.legal-tag {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  color: var(--coral); letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.legal-tag::before {
+  content: ""; display: inline-block; width: 32px; height: 1px;
+  background: var(--coral); margin-right: 12px; vertical-align: middle;
+}
+h1.legal-h1 {
+  font-family: var(--font-serif); font-weight: 400;
+  font-size: clamp(40px, 5.5vw, 64px); line-height: 1.05;
+  letter-spacing: -0.02em; color: var(--ink);
+  margin-bottom: 24px;
+}
+.legal-intro {
+  font-family: var(--font-serif); font-size: 19px; line-height: 1.55;
+  color: var(--ink-muted);
+  margin-bottom: 56px;
+  max-width: 56ch;
+}
+.legal-page h2 {
+  font-family: var(--font-serif); font-weight: 500;
+  font-size: 26px; line-height: 1.2; letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-top: 48px; margin-bottom: 16px;
+}
+.legal-page h2:first-of-type { margin-top: 0; }
+.legal-page h3 {
+  font-family: var(--font-sans); font-weight: 600;
+  font-size: 16px; line-height: 1.3;
+  color: var(--ink);
+  margin-top: 24px; margin-bottom: 8px;
+  letter-spacing: -0.005em;
+}
+.legal-page p, .legal-page address {
+  font-family: var(--font-sans); font-style: normal;
+  font-size: 16px; line-height: 1.65; color: var(--ink-muted);
+  margin-bottom: 14px;
+}
+.legal-page ul {
+  margin: 0 0 14px 22px;
+  font-size: 16px; line-height: 1.65; color: var(--ink-muted);
+}
+.legal-page li { margin-bottom: 6px; }
+.legal-page strong { color: var(--ink); font-weight: 500; }
+.legal-page a {
+  color: var(--ink); text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.15s;
+}
+.legal-page a:hover { text-decoration-color: var(--coral); }
+.legal-meta {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--ink-light); letter-spacing: 0.04em;
+  margin-top: 56px; padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+footer {
+  background: var(--bg-dark);
+  color: var(--on-dark-mute);
+  padding: 36px 0;
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.04em;
+}
+.footer-inner {
+  max-width: 1280px; margin: 0 auto; padding: 0 32px;
+  display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+}
+.footer-inner a {
+  color: var(--on-dark-mute); text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-inner a:hover { color: var(--on-dark); }
+.footer-legal { display: inline-flex; gap: 20px; }
+@media (max-width: 768px) {
+  .footer-inner { flex-direction: column; gap: 12px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">SKAILE <em>/</em> Stack</a>
+    <a href="/" class="back-link">← Zurück</a>
+  </div>
+</header>
+
+<main class="legal-page">
+  <div class="wrap-narrow">
+    <div class="legal-tag">Datenschutz · Art. 13 DSGVO</div>
+    <h1 class="legal-h1">Datenschutzerklärung.</h1>
+    <p class="legal-intro">
+      Diese Erklärung beschreibt, welche personenbezogenen Daten ich beim Betrieb dieser Website verarbeite, zu welchem Zweck und auf welcher Rechtsgrundlage. Ich halte mich dabei an die DSGVO und das BDSG.
+    </p>
+
+    <h2>1. Verantwortlicher</h2>
+    <address>
+      Sebastian Kauffmann<br>
+      SKAILE AI Consulting<br>
+      Namedorfstr. 5<br>
+      30539 Hannover<br>
+      Deutschland<br>
+      E-Mail: <a href="mailto:sebastian@skaile.de">sebastian@skaile.de</a>
+    </address>
+
+    <h2>2. Eintrag in den Verteiler (Anmeldeformular)</h2>
+    <p>
+      Wenn du dich auf dieser Seite mit deiner E-Mail-Adresse einträgst, verarbeite ich folgende Daten:
+    </p>
+    <ul>
+      <li><strong>E-Mail-Adresse</strong> - um dir den angeforderten Guide-Zugang zuzusenden</li>
+      <li><strong>IP-Adresse</strong> - aus technischen Gründen (Spam-Schutz, Logging des Webhook-Servers)</li>
+      <li><strong>User-Agent</strong> - Browser-Kennung, zur Fehleranalyse</li>
+      <li><strong>Quelle</strong> der Anmeldung (welche Stelle der Seite) - zur Optimierung des Angebots</li>
+      <li><strong>Zeitpunkt</strong> der Anmeldung</li>
+    </ul>
+
+    <h3>Rechtsgrundlage</h3>
+    <p>
+      Art. 6 Abs. 1 lit. a DSGVO (Einwilligung). Du kannst deine Einwilligung jederzeit widerrufen, ohne dass die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung berührt wird.
+    </p>
+
+    <h3>Zweck</h3>
+    <p>
+      Versand des angeforderten Guides und ggf. Folge-Mails mit verwandten Inhalten. Kein Verkauf der Daten an Dritte.
+    </p>
+
+    <h3>Speicherdauer</h3>
+    <p>
+      Bis zum Widerruf der Einwilligung. Du kannst dich jederzeit per Mail an <a href="mailto:sebastian@skaile.de">sebastian@skaile.de</a> abmelden, deine Daten werden dann unverzüglich gelöscht.
+    </p>
+
+    <h2>3. Hosting und Empfänger der Daten (Auftragsverarbeitung)</h2>
+    <p>
+      Zur Bereitstellung der Website und Verarbeitung deiner Anmeldung setze ich folgende Dienste ein:
+    </p>
+
+    <h3>Cloudflare Pages (Hosting der Seite)</h3>
+    <p>
+      Anbieter: Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA. Die Auslieferung erfolgt über das Cloudflare-CDN. Beim Aufruf der Seite werden technisch notwendige Daten (IP, User-Agent, Zeitpunkt) verarbeitet. Cloudflare bietet vertraglich die Standardvertragsklauseln (SCC) gemäß DSGVO an. Mehr unter <a href="https://www.cloudflare.com/de-de/privacypolicy/" target="_blank" rel="noopener noreferrer">cloudflare.com/de-de/privacypolicy</a>.
+    </p>
+
+    <h3>Webhook-Server (n8n, eigene Infrastruktur)</h3>
+    <p>
+      Die Anmeldedaten werden zunächst an einen self-gehosteten Workflow-Server (n8n) auf einem deutschen VPS bei Hetzner Online GmbH (Industriestr. 25, 91710 Gunzenhausen, Standort Nürnberg) gesendet. Dort findet eine Validierung statt, dann erfolgt die Speicherung in der Datenbank.
+    </p>
+
+    <h3>Supabase (Datenbank)</h3>
+    <p>
+      Anbieter: Supabase Inc., 970 Toa Payoh North #07-04, Singapore 318992. Die Datenbank-Region für dieses Projekt liegt in der EU (Frankfurt, AWS eu-central-1). Die übermittelten Daten werden ausschließlich in der EU gespeichert. Mehr unter <a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer">supabase.com/privacy</a>.
+    </p>
+
+    <h3>Google Fonts (Schriftarten)</h3>
+    <p>
+      Beim Aufruf der Seite werden Schriftarten von <a href="https://fonts.google.com" target="_blank" rel="noopener noreferrer">Google Fonts</a> nachgeladen (Anbieter: Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland). Dabei wird deine IP-Adresse an Google übermittelt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer ansprechenden Darstellung).
+    </p>
+
+    <h2>4. Cookies und Tracking</h2>
+    <p>
+      <strong>Diese Seite setzt keine Cookies und nutzt kein Analyse-Tracking.</strong> Es werden keine Profile gebildet und keine Werbe-IDs verarbeitet.
+    </p>
+
+    <h2>5. Deine Rechte</h2>
+    <p>
+      Du hast nach DSGVO folgende Rechte:
+    </p>
+    <ul>
+      <li><strong>Auskunft</strong> über die zu deiner Person gespeicherten Daten (Art. 15)</li>
+      <li><strong>Berichtigung</strong> unrichtiger Daten (Art. 16)</li>
+      <li><strong>Löschung</strong> deiner Daten (Art. 17)</li>
+      <li><strong>Einschränkung</strong> der Verarbeitung (Art. 18)</li>
+      <li><strong>Datenübertragbarkeit</strong> (Art. 20)</li>
+      <li><strong>Widerspruch</strong> gegen die Verarbeitung (Art. 21)</li>
+      <li><strong>Widerruf der Einwilligung</strong> jederzeit ohne Angabe von Gründen</li>
+    </ul>
+    <p>
+      Anfragen bitte an <a href="mailto:sebastian@skaile.de">sebastian@skaile.de</a>.
+    </p>
+
+    <h2>6. Beschwerderecht</h2>
+    <p>
+      Du hast das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren. Zuständig für mich ist die Landesbeauftragte für den Datenschutz Niedersachsen, Prinzenstraße 5, 30159 Hannover.
+    </p>
+
+    <h2>7. Änderungen dieser Erklärung</h2>
+    <p>
+      Ich passe diese Erklärung an, wenn sich Änderungen an meiner Datenverarbeitung oder Rechtslage ergeben. Es gilt jeweils die zum Zeitpunkt deines Besuchs aktuelle Version.
+    </p>
+
+    <p class="legal-meta">Stand: 30. April 2026</p>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 SKAILE AI Consulting</span>
+    <span class="footer-legal">
+      <a href="/datenschutz">Datenschutz</a>
+      <a href="/impressum">Impressum</a>
+    </span>
+    <span>Building in Public</span>
+  </div>
+</footer>
+
+</body>
+</html>

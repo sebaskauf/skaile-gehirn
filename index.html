@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>claude-mem Setup — lückenloses Gedächtnis für Claude Code in 2 Minuten</title>
+<meta name="description" content="So installierst du claude-mem — das Plugin das deinem Claude Code ein lückenloses Gedächtnis über alle Sessions gibt. 72.000 GitHub-Stars. Setup in 2 Minuten.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:           #FAFAF7;
+  --bg-elevated:  #FFFFFF;
+  --bg-card:      #F4F1EA;
+  --bg-dark:      #141413;
+  --bg-darker:    #0A0A0A;
+  --ink:          #1A1A1A;
+  --ink-muted:    #5A554D;
+  --ink-light:    #8A8378;
+  --on-dark:      #FAFAF7;
+  --on-dark-mute: rgba(250, 250, 247, 0.7);
+  --on-dark-light:rgba(250, 250, 247, 0.45);
+  --line:         #E5E0D2;
+  --line-strong:  #BFB8A8;
+  --line-dark:    rgba(255, 255, 255, 0.1);
+  --coral:        #CC785C;
+  --coral-soft:   #E8C4B0;
+  --green:        #22A155;
+  --font-serif:   'Newsreader', 'Iowan Old Style', Georgia, serif;
+  --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'SF Mono', Menlo, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.wrap        { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+.wrap-narrow { max-width: 920px;  margin: 0 auto; padding: 0 32px; }
+
+@media (max-width: 768px) {
+  .wrap, .wrap-narrow { padding: 0 20px; }
+}
+
+/* ───── Header ───── */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250, 250, 247, 0.96);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+@media (max-width: 768px) {
+  header { background: var(--bg); }
+}
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 32px; max-width: 1280px; margin: 0 auto;
+}
+.logo {
+  font-family: var(--font-serif); font-size: 22px; font-weight: 500;
+  color: var(--ink); text-decoration: none; letter-spacing: -0.01em;
+}
+.logo em { font-style: italic; color: var(--coral); }
+nav.main-nav {
+  display: flex; gap: 28px; align-items: center;
+}
+nav.main-nav a {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  color: var(--ink-muted); text-decoration: none; letter-spacing: 0.02em;
+  transition: color 0.15s;
+}
+nav.main-nav a:hover { color: var(--ink); }
+.cta-nav {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+  background: var(--ink); color: var(--bg);
+  padding: 10px 18px; border-radius: 6px; text-decoration: none;
+  letter-spacing: 0.04em;
+}
+.cta-nav:hover { background: #000; }
+
+@media (max-width: 768px) {
+  .header-inner { padding: 14px 20px; }
+  nav.main-nav { display: none; }
+  .logo { font-size: 19px; }
+}
+
+/* ───── Hero ───── */
+section.hero {
+  padding: 80px 0 100px;
+  border-bottom: 1px solid var(--line);
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 64px;
+  align-items: end;
+}
+.hero-tag {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  color: var(--coral); letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.hero-tag::before {
+  content: ""; display: inline-block; width: 32px; height: 1px;
+  background: var(--coral); margin-right: 12px; vertical-align: middle;
+}
+.hero h1 {
+  font-family: var(--font-serif); font-weight: 400;
+  font-size: clamp(48px, 7vw, 88px); line-height: 1.02;
+  letter-spacing: -0.025em; max-width: 14ch;
+  color: var(--ink);
+}
+.hero h1 .underline {
+  border-bottom: 3px solid var(--ink); padding-bottom: 4px;
+}
+.hero h1 em {
+  font-style: italic; color: var(--coral);
+}
+.hero-meta {
+  margin-top: 36px; display: flex; align-items: center; gap: 20px;
+  font-family: var(--font-mono); font-size: 12px;
+  color: var(--ink-muted); letter-spacing: 0.04em;
+}
+.live-pulse {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green); position: relative;
+}
+.live-pulse::after {
+  content: ""; position: absolute; inset: -4px; border-radius: 50%;
+  background: var(--green); opacity: 0.3;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(0.7); opacity: 0.7; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+.hero-intro {
+  font-family: var(--font-serif); font-size: 21px; line-height: 1.55;
+  color: var(--ink-muted);
+}
+.hero-intro p + p { margin-top: 18px; }
+.hero-intro strong { color: var(--ink); font-weight: 500; }
+
+.hero-cta-row {
+  margin-top: 32px;
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+}
+.hero-cta-secondary {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  color: var(--ink-muted); text-decoration: none;
+  border-bottom: 1px solid var(--line-strong);
+  padding-bottom: 2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.hero-cta-secondary:hover { color: var(--ink); border-color: var(--ink); }
+
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  section.hero { padding: 56px 0 72px; }
+}
+
+/* ───── 3-Step Grid ───── */
+section.mcps {
+  padding: 100px 0;
+  border-bottom: 1px solid var(--line);
+}
+.section-header {
+  display: flex; align-items: end; justify-content: space-between;
+  margin-bottom: 56px; gap: 32px;
+}
+.section-header h2 {
+  font-family: var(--font-serif); font-weight: 400;
+  font-size: clamp(38px, 5.5vw, 64px); line-height: 1.05;
+  letter-spacing: -0.02em; max-width: 14ch;
+}
+.section-header h2 em { font-style: italic; color: var(--coral); }
+.section-header p {
+  font-family: var(--font-serif); font-size: 19px; line-height: 1.5;
+  color: var(--ink-muted); max-width: 38ch;
+}
+.section-tag {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  color: var(--coral); letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.mcp-list {
+  display: flex; flex-direction: column; gap: 0;
+  border-top: 1px solid var(--line);
+}
+.mcp-item {
+  display: grid;
+  grid-template-columns: 80px 1fr 1.2fr;
+  gap: 48px;
+  padding: 48px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: start;
+  min-width: 0;
+}
+.mcp-item > * { min-width: 0; }
+.mcp-num {
+  font-family: var(--font-mono); font-size: 13px; font-weight: 600;
+  color: var(--coral); letter-spacing: 0.1em;
+}
+.mcp-name h3 {
+  font-family: var(--font-serif); font-weight: 500;
+  font-size: 36px; line-height: 1.1; letter-spacing: -0.015em;
+  margin-bottom: 8px;
+}
+.mcp-name .role {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  color: var(--ink-light); letter-spacing: 0.12em; text-transform: uppercase;
+}
+.mcp-content p.body-serif {
+  font-family: var(--font-serif); font-size: 19px; line-height: 1.65;
+  color: var(--ink); margin-bottom: 24px;
+}
+.mcp-content p.body-serif em {
+  font-style: italic;
+}
+.mcp-prereq {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  color: var(--ink-muted); letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.code-block {
+  background: var(--bg-dark);
+  color: var(--on-dark);
+  font-family: var(--font-mono); font-size: 13px; line-height: 1.65;
+  padding: 18px 22px; border-radius: 10px;
+  overflow-x: auto;
+  white-space: pre; -webkit-overflow-scrolling: touch;
+  width: 100%; max-width: 100%;
+  box-sizing: border-box;
+}
+@media (max-width: 768px) {
+  .code-block {
+    font-size: 11px;
+    padding: 14px 16px;
+  }
+}
+.code-block .comment { color: var(--on-dark-mute); }
+.code-block .key { color: #FFD180; }
+.code-block .string { color: #B5E853; }
+.code-block .cmd { color: #87CEFA; }
+
+@media (max-width: 900px) {
+  .mcp-item {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 36px 0;
+  }
+  .mcp-num { font-size: 12px; }
+  .mcp-name h3 { font-size: 28px; }
+  section.mcps { padding: 64px 0; }
+  .section-header { flex-direction: column; align-items: start; margin-bottom: 36px; }
+}
+
+/* ───── Pro-Tipp Section (Dark with 3D) ───── */
+section.pro-tipp {
+  background: var(--bg-dark);
+  color: var(--on-dark);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+section.pro-tipp #network-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: 0; opacity: 0.85;
+}
+.pro-tipp-content {
+  position: relative; z-index: 1;
+  max-width: 920px; margin: 0 auto; padding: 0 32px;
+  text-align: center;
+}
+.pro-tipp .tag-dark {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  color: var(--coral); letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.pro-tipp h2 {
+  font-family: var(--font-serif); font-weight: 400;
+  font-size: clamp(36px, 5vw, 56px); line-height: 1.1;
+  letter-spacing: -0.02em; margin-bottom: 24px;
+  max-width: 18ch; margin-left: auto; margin-right: auto;
+}
+.pro-tipp h2 em { font-style: italic; color: var(--coral-soft); }
+.pro-tipp p.lead {
+  font-family: var(--font-serif); font-size: 21px; line-height: 1.5;
+  color: var(--on-dark-mute); margin-bottom: 40px;
+  max-width: 56ch; margin-left: auto; margin-right: auto;
+}
+.prompt-box {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--line-dark);
+  border-radius: 14px;
+  padding: 28px;
+  text-align: left;
+  font-family: var(--font-mono); font-size: 13px; line-height: 1.7;
+  color: var(--on-dark-mute);
+  position: relative;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.prompt-box pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+}
+.prompt-box .copy-btn {
+  position: absolute; top: 16px; right: 16px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--line-dark);
+  color: var(--on-dark);
+  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+  padding: 6px 12px; border-radius: 6px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: pointer; transition: background 0.15s;
+}
+.prompt-box .copy-btn:hover { background: rgba(255,255,255,0.16); }
+.prompt-box .copy-btn.copied { background: var(--coral); border-color: var(--coral); color: #FFF; }
+.prompt-box .ph-yellow { color: #FFD180; }
+.prompt-box .ph-green { color: #B5E853; }
+.prompt-box .ph-blue { color: #87CEFA; }
+
+@media (max-width: 768px) {
+  section.pro-tipp { padding: 80px 0; }
+  .prompt-box { padding: 20px 18px; font-size: 12px; }
+}
+
+/* ───── CTA Section ───── */
+section.cta-final {
+  background: var(--bg-dark);
+  color: var(--on-dark);
+  padding: 120px 0;
+  position: relative;
+}
+.cta-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.cta-final h2 {
+  font-family: var(--font-serif); font-weight: 400;
+  font-size: clamp(40px, 6vw, 72px); line-height: 1.05;
+  letter-spacing: -0.02em; margin-bottom: 24px;
+  max-width: 14ch;
+}
+.cta-final h2 .underline-dark {
+  border-bottom: 3px solid var(--coral); padding-bottom: 4px;
+}
+.cta-final p.lead-dark {
+  font-family: var(--font-serif); font-size: 20px; line-height: 1.55;
+  color: var(--on-dark-mute); max-width: 42ch;
+}
+.email-form {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--line-dark);
+  border-radius: 16px;
+  padding: 36px 32px;
+}
+.email-form .form-tag {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  color: var(--coral); letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.email-form h3 {
+  font-family: var(--font-serif); font-weight: 500;
+  font-size: 28px; line-height: 1.2; letter-spacing: -0.015em;
+  color: var(--on-dark); margin-bottom: 8px;
+}
+.email-form p.form-desc {
+  font-family: var(--font-sans); font-size: 15px; line-height: 1.55;
+  color: var(--on-dark-mute); margin-bottom: 24px;
+}
+.email-form .field {
+  display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px;
+}
+.email-form label {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  color: var(--on-dark-light); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.email-form input {
+  width: 100%; padding: 14px 16px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--line-dark);
+  border-radius: 8px;
+  color: var(--on-dark);
+  font-family: var(--font-sans); font-size: 16px;
+  transition: border-color 0.15s;
+}
+.email-form input:focus {
+  outline: none; border-color: var(--coral);
+}
+.email-form input::placeholder { color: var(--on-dark-light); }
+.email-form button {
+  width: 100%; padding: 16px;
+  background: var(--coral); color: #FFF;
+  border: none; border-radius: 8px;
+  font-family: var(--font-mono); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: pointer; margin-top: 8px;
+  transition: background 0.15s, transform 0.15s;
+}
+.email-form button:hover { background: #B86A4F; transform: translateY(-1px); }
+.email-form .success-msg {
+  display: none;
+  padding: 24px; text-align: center;
+  background: rgba(34,161,85,0.12);
+  border: 1px solid rgba(34,161,85,0.3);
+  border-radius: 12px;
+  margin-top: 16px;
+}
+.email-form .success-msg h4 {
+  font-family: var(--font-serif); font-size: 22px;
+  color: var(--on-dark); margin-bottom: 6px;
+}
+.email-form .success-msg p {
+  font-family: var(--font-sans); font-size: 14px;
+  color: var(--on-dark-mute);
+}
+
+@media (max-width: 900px) {
+  .cta-grid { grid-template-columns: 1fr; gap: 40px; }
+  section.cta-final { padding: 72px 0; }
+  .email-form { padding: 28px 22px; }
+}
+
+/* ───── Footer ───── */
+footer {
+  background: var(--bg-dark);
+  color: var(--on-dark-mute);
+  padding: 56px 0 36px;
+  border-top: 1px solid var(--line-dark);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 36px;
+}
+.footer-brand {
+  font-family: var(--font-serif); font-size: 22px;
+  color: var(--on-dark); margin-bottom: 12px;
+}
+.footer-brand em { font-style: italic; color: var(--coral); }
+.footer-tagline {
+  font-family: var(--font-sans); font-size: 14px;
+  color: var(--on-dark-mute); max-width: 36ch; line-height: 1.55;
+}
+.footer-col h4 {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  color: var(--on-dark); letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.footer-col a {
+  display: block; padding: 5px 0;
+  font-family: var(--font-sans); font-size: 14px;
+  color: var(--on-dark-mute); text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-col a:hover { color: var(--on-dark); }
+.footer-bottom {
+  padding-top: 28px; border-top: 1px solid var(--line-dark);
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--on-dark-light); letter-spacing: 0.04em;
+}
+
+.footer-legal {
+  display: inline-flex; gap: 20px;
+}
+.footer-legal a {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--on-dark-mute); text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.15s;
+}
+.footer-legal a:hover { color: var(--on-dark); }
+
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 12px; align-items: start; }
+  .footer-legal { gap: 16px; }
+}
+
+/* ───── Hero Inline Mini-Form ───── */
+.hero-mini-form {
+  margin-top: 32px;
+  display: flex; flex-direction: column; gap: 10px;
+  max-width: 460px;
+}
+.hero-mini-form input {
+  width: 100%; min-width: 0;
+  padding: 14px 16px;
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--line-strong);
+  border-radius: 8px;
+  color: var(--ink);
+  font-family: var(--font-sans); font-size: 15px;
+  transition: border-color 0.15s;
+}
+.hero-mini-form input:focus {
+  outline: none; border-color: var(--ink);
+}
+.hero-mini-form input::placeholder { color: var(--ink-light); }
+.hero-mini-form button {
+  width: 100%;
+  white-space: nowrap;
+  padding: 14px 22px;
+  background: var(--ink); color: var(--bg);
+  border: none; border-radius: 8px;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+.hero-mini-form button:hover { background: #000; transform: translateY(-1px); }
+.hero-mini-form .hero-mini-arrow {
+  display: inline-block; margin-left: 6px;
+  transition: transform 0.15s;
+}
+.hero-mini-form button:hover .hero-mini-arrow { transform: translateX(3px); }
+.hero-mini-form.success {
+  background: rgba(34,161,85,0.08);
+  border: 1px solid rgba(34,161,85,0.3);
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-family: var(--font-serif); font-size: 16px;
+  color: var(--ink);
+}
+.hero-mini-form.success::before {
+  content: "✓"; color: var(--green); font-weight: 700; margin-right: 8px;
+}
+
+/* ───── Mid-Page CTA Strip ───── */
+section.mid-cta {
+  background: var(--bg-card);
+  padding: 48px 0;
+  border-bottom: 1px solid var(--line);
+}
+.mid-cta-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+}
+.mid-cta-text { max-width: 52ch; }
+.mid-cta-tag {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+  color: var(--coral); letter-spacing: 0.16em; text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.mid-cta-text p {
+  font-family: var(--font-serif); font-size: 22px; line-height: 1.35;
+  color: var(--ink); letter-spacing: -0.005em;
+}
+.mid-cta-text p em { font-style: italic; color: var(--coral); }
+.mid-cta-form {
+  display: flex; flex-direction: column; gap: 8px;
+  min-width: 360px;
+}
+.mid-cta-form input {
+  width: 100%; min-width: 0;
+  padding: 13px 14px;
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--line-strong);
+  border-radius: 8px;
+  color: var(--ink);
+  font-family: var(--font-sans); font-size: 14px;
+}
+.mid-cta-form input:focus {
+  outline: none; border-color: var(--ink);
+}
+.mid-cta-form button {
+  width: 100%;
+  white-space: nowrap;
+  padding: 13px 20px;
+  background: var(--ink); color: var(--bg);
+  border: none; border-radius: 8px;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+.mid-cta-form button:hover { background: #000; transform: translateY(-1px); }
+.mid-cta-form.success {
+  font-family: var(--font-serif); font-size: 17px;
+  color: var(--ink);
+  background: rgba(34,161,85,0.08);
+  border: 1px solid rgba(34,161,85,0.3);
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: block;
+  min-width: 360px;
+}
+.mid-cta-form.success::before {
+  content: "✓"; color: var(--green); font-weight: 700; margin-right: 8px;
+}
+
+@media (max-width: 900px) {
+  .mid-cta-inner { grid-template-columns: 1fr; gap: 24px; }
+  .mid-cta-form, .mid-cta-form.success { min-width: 0; width: 100%; }
+  .mid-cta-text p { font-size: 19px; }
+  section.mid-cta { padding: 40px 0; }
+}
+
+/* ───── Honeypot ───── */
+.hp-field {
+  position: absolute !important;
+  left: -9999px !important;
+  top: auto !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* ───── Inline Form-Error ───── */
+.form-error {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(204, 120, 92, 0.4);
+  background: rgba(204, 120, 92, 0.08);
+  border-left: 3px solid var(--coral);
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink);
+  flex-basis: 100%;
+  width: 100%;
+}
+.form-error[hidden] { display: none; }
+section.cta-final .form-error {
+  color: var(--on-dark);
+  background: rgba(204, 120, 92, 0.12);
+  border-color: rgba(204, 120, 92, 0.5);
+}
+
+/* ───── Sticky Mobile CTA Bar ───── */
+.sticky-mobile-cta {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 99;
+  background: rgba(20, 20, 19, 0.96);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 12px 16px;
+  transform: translateY(100%);
+  transition: transform 0.25s ease-out;
+}
+.sticky-mobile-cta.visible {
+  transform: translateY(0);
+}
+.sticky-mobile-cta a {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--coral); color: #FFF;
+  padding: 14px 20px; border-radius: 8px;
+  font-family: var(--font-mono); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  text-decoration: none;
+}
+.sticky-mobile-cta a:active { background: #B86A4F; }
+.sticky-mobile-cta .arrow {
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .sticky-mobile-cta { display: block; }
+  body.has-sticky-cta { padding-bottom: 80px; }
+}
+
+/* ───── Editorial article on cream BG ───── */
+section.pro-tipp.bg-card-section {
+  background: var(--bg-card);
+  color: var(--ink);
+}
+section.pro-tipp.bg-card-section .section-tag,
+section.pro-tipp.bg-card-section .tag-dark {
+  color: var(--coral);
+}
+section.pro-tipp.bg-card-section h2,
+section.pro-tipp.bg-card-section h3,
+section.pro-tipp.bg-card-section strong,
+section.pro-tipp.bg-card-section li,
+section.pro-tipp.bg-card-section p,
+section.pro-tipp.bg-card-section ul {
+  color: var(--ink);
+}
+section.pro-tipp.bg-card-section em { color: var(--coral); }
+section.pro-tipp.bg-card-section li {
+  border-bottom-color: var(--line);
+}
+
+/* ───── App-Card Grid (Word/Excel/PowerPoint/Outlook) ───── */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  margin-top: 32px;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+.app-card {
+  padding: 32px 28px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-elevated);
+}
+.app-card .app-name {
+  font-family: var(--font-serif); font-size: 26px; font-weight: 500;
+  letter-spacing: -0.015em; margin-bottom: 6px;
+  color: var(--ink);
+}
+.app-card .app-name em { font-style: italic; color: var(--coral); }
+.app-card .app-status {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+  color: var(--coral); letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.app-card .app-status.beta { color: var(--ink-light); }
+.app-card p {
+  font-family: var(--font-serif); font-size: 17px; line-height: 1.6;
+  color: var(--ink-muted);
+}
+@media (max-width: 768px) {
+  .app-grid { grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+
+<body class="has-sticky-cta">
+
+<!-- ═══════════════ STICKY MOBILE CTA ═══════════════ -->
+<div class="sticky-mobile-cta" id="stickyMobileCta">
+  <a href="#final-cta">Early Access sichern <span class="arrow">→</span></a>
+</div>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">SKAILE <em>/</em> Gehirn</a>
+    <nav class="main-nav">
+      <a href="#schritte">Schritt-für-Schritt</a>
+      <a href="#protipp">Master-Prompt</a>
+      <a href="#apps">Was geht in jeder App</a>
+      <a href="#final-cta">Community</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-tag">Setup-Guide · claude-mem · Mai 2026</div>
+        <h1>Lückenloses Gedächtnis für deinen <em>Claude Code</em>.</h1>
+      </div>
+      <div class="hero-intro">
+        <p>Ich baue gerade eine <strong>Community</strong> für alle, die Claude Code richtig lernen wollen. Plus du bekommst sofort Zugriff auf alle <strong>50+ Guides, Skills und Plugins</strong>, die ich bisher erstellt habe. Trag dich ein für Early Access.</p>
+        <form class="hero-mini-form lead-form" data-placement="hero" novalidate>
+          <input type="text" name="name" placeholder="dein Vorname" required autocomplete="name">
+          <input type="email" name="email" placeholder="deine@email.de" required autocomplete="email">
+          <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp-field" aria-hidden="true">
+          <button type="submit">Early Access sichern <span class="hero-mini-arrow">→</span></button>
+        </form>
+        <div class="hero-cta-row" style="margin-top: 18px;">
+          <a href="#schritte" class="hero-cta-secondary">Erst die Schritte ansehen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SCHRITT-FÜR-SCHRITT ═══════════════ -->
+<section class="mcps" id="schritte">
+  <div class="wrap">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">Schritt-für-Schritt · Setup in 2 Minuten</div>
+        <h2>In drei Schritten zum <em>lückenlosen Gedächtnis</em>.</h2>
+      </div>
+      <p>Ein Befehl installiert, einmal Claude Code neu starten, eine Hook-Routine läuft im Hintergrund. Danach erinnert sich Claude ab jedem neuen Chat an alles was ihr je zusammen gebaut habt.</p>
+    </div>
+
+    <div class="mcp-list">
+
+      <!-- 01 claude-mem installieren -->
+      <article class="mcp-item">
+        <div class="mcp-num">01</div>
+        <div class="mcp-name">
+          <h3>claude-mem installieren</h3>
+          <span class="role">Ein npx-Befehl, 30 Sekunden</span>
+        </div>
+        <div class="mcp-content">
+          <p class="body-serif">claude-mem ist das offizielle Plugin von <em>thedotmack</em>, mit über siebzigtausend GitHub-Stars das mit Abstand beliebteste Memory-Tool für Claude Code. Du installierst es einmal über <em>npx</em>, das Script registriert die Session-Lifecycle-Hooks und legt die lokale Datenbank an.</p>
+<pre class="code-block"><span class="comment"># Offizielle Installation</span>
+npx claude-mem install
+
+<span class="comment"># Verifizieren dass alles korrekt registriert ist</span>
+npx claude-mem status
+
+<span class="comment">→ Dauer: 30 Sekunden
+→ Voraussetzung: Node.js 18+ und Claude Code installiert
+→ Funktioniert auf macOS, Linux und Windows (WSL)
+→ Komplett lokal — keine Daten gehen in die Cloud</span></pre>
+          <div class="mcp-prereq">Wichtig: Nicht via npm install -g installieren. Nur der npx claude-mem install Befehl registriert die Hooks und den Worker-Service korrekt. Repository: github.com/thedotmack/claude-mem</div>
+        </div>
+      </article>
+
+      <!-- 02 Claude Code neu starten -->
+      <article class="mcp-item">
+        <div class="mcp-num">02</div>
+        <div class="mcp-name">
+          <h3>Claude Code neu starten</h3>
+          <span class="role">Hook-Aktivierung beim Session-Start</span>
+        </div>
+        <div class="mcp-content">
+          <p class="body-serif">Damit die Hooks greifen muss Claude Code einmal neu gestartet werden. Beim nächsten Start lädt claude-mem automatisch den Worker im Hintergrund und beginnt sofort alle Tool-Calls und File-Reads zu beobachten.</p>
+<pre class="code-block"><span class="comment"># Aktive Session beenden und neu starten</span>
+exit
+claude
+
+<span class="comment"># Prüfen ob die Hooks aktiv sind</span>
+npx claude-mem status
+<span class="comment">→ "hooks: active" sollte erscheinen
+→ "worker: running" sollte erscheinen</span>
+
+<span class="comment"># Optional: lokale Datenbank inspizieren</span>
+ls ~/.claude-mem/
+<span class="comment">→ memory.db (SQLite mit komprimierten Sessions)
+→ chroma/ (Vector-Search-Index)</span></pre>
+          <div class="mcp-prereq">Die Speicherung läuft komplett lokal: SQLite-DB plus ChromaDB Vector-Index liegen unter ~/.claude-mem. Keine Cloud, keine externen API-Calls, kein Account nötig.</div>
+        </div>
+      </article>
+
+      <!-- 03 Session-Handoff Combo -->
+      <article class="mcp-item">
+        <div class="mcp-num">03</div>
+        <div class="mcp-name">
+          <h3>Session-Handoff dazuschalten</h3>
+          <span class="role">Doppelte Absicherung für lückenloses Gedächtnis</span>
+        </div>
+        <div class="mcp-content">
+          <p class="body-serif">claude-mem alleine deckt schon 95 Prozent der Memory-Gaps. Wer wirklich lückenlos arbeiten will kombiniert es mit einem <em>Session-Handoff-Skill</em>: am Ende jeder Session schreibt Claude eine kurze Übergabe in Markdown, am Anfang der nächsten Session lädt er sowohl claude-mem als auch den Handoff. Doppelt hält besser.</p>
+<pre class="code-block"><span class="comment"># Handoff am Session-Ende generieren</span>
+{">"} Mach mir ein Session-Handoff: Was war das Ziel,
+   was haben wir gebaut, welche Files sind aktiv,
+   was kommt als Naechstes.
+
+<span class="comment"># Claude schreibt eine kompakte Handoff-Datei</span>
+{">"} Speicher das als handoff-{Datum}.md
+
+<span class="comment"># In der naechsten Session laedst du beides</span>
+claude
+{">"} Lies handoff-{Datum}.md und mach weiter
+{">"} (claude-mem laedt parallel den Kontext)
+
+<span class="comment">→ claude-mem: alles was passiert ist (automatisch)
+→ Handoff: was du als Naechstes machen willst (manuell)</span></pre>
+          <div class="mcp-prereq">Optional, aber massiver Quality-Boost. Wenn dein Projekt komplex wird (mehrere Wochen, viele Decisions), schützt der Handoff vor den seltenen Memory-Drift-Edge-Cases die claude-mem alleine nicht abfängt.</div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ MID-PAGE CTA STRIP ═══════════════ -->
+<section class="mid-cta">
+  <div class="wrap">
+    <div class="mid-cta-inner">
+      <div class="mid-cta-text">
+        <div class="mid-cta-tag">SKAILE Community · Early Access</div>
+        <p>Ich baue gerade eine Community für alle, die Claude richtig lernen wollen. Plus alle <em>50+ Guides, Skills und Plugins</em>, die ich bisher gebaut habe. Workshops, Q&amp;A, alles an einem Ort. Trag dich ein für Early Access.</p>
+      </div>
+      <form class="mid-cta-form lead-form" data-placement="mid-page" novalidate>
+        <input type="text" name="name" placeholder="dein Vorname" required autocomplete="name">
+        <input type="email" name="email" placeholder="deine@email.de" required autocomplete="email">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp-field" aria-hidden="true">
+        <button type="submit">Early Access sichern →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PRO-TIPP MIT INSTALL-PROMPT + WORKFLOW-BEISPIELEN ═══════════════ -->
+<section class="pro-tipp" id="protipp">
+  <canvas id="network-canvas"></canvas>
+  <div class="pro-tipp-content">
+    <div class="tag-dark">Setup-Prompt · Claude installiert claude-mem selbst</div>
+    <h2>Lass Claude den Setup <em>für dich</em> machen.</h2>
+    <p class="lead">Wenn du den manuellen Befehl überspringen willst — paste diesen Prompt in eine frische Claude-Session und Claude installiert, verifiziert und erklärt dir alles was nötig ist.</p>
+
+    <div class="prompt-box" style="margin-top: 32px; max-width: 100%; box-sizing: border-box; overflow: hidden;">
+      <button class="copy-btn" onclick="copyPrompt(this)">Kopieren</button>
+<pre style="white-space: pre-wrap; overflow-wrap: anywhere; max-width: 100%;"><span class="ph-green"># Setup-Prompt — kopieren und in Claude Code paste-n</span>
+<span class="ph-yellow">Bitte installiere fuer mich das Plugin claude-mem von
+thedotmack. Das ist das beliebteste Memory-Plugin fuer
+Claude Code (ueber 72.000 GitHub-Stars). Es speichert
+automatisch den Kontext jeder Session und laedt ihn
+bei der naechsten Session wieder rein, sodass mein
+Claude Code ein lueckenloses Gedaechtnis ueber alle
+Sessions hinweg hat.
+
+Mach bitte folgendes Schritt fuer Schritt:
+
+1. Verifiziere dass Node.js 18 oder hoeher installiert ist:
+   node --version
+
+2. Installiere claude-mem ueber den offiziellen Befehl:
+   npx claude-mem install
+
+3. Pruefe den Status:
+   npx claude-mem status
+   Erwarte: hooks: active, worker: running
+
+4. Erklaere mir in drei Saetzen was jetzt im Hintergrund
+   passiert, wo die Daten gespeichert sind, und wie ich
+   verifizieren kann dass das Memory in der naechsten
+   Session wirklich geladen wird.
+
+5. Sag mir explizit ob ich Claude Code einmal neu starten
+   muss damit die Hooks greifen.
+
+Wenn an irgendeiner Stelle ein Fehler auftritt oder du
+unsicher bist, frag zurueck statt zu raten.</span></pre>
+    </div>
+
+    <div class="prompt-box" style="margin-top: 32px; max-width: 100%; box-sizing: border-box; overflow: hidden;">
+      <button class="copy-btn" onclick="copyPrompt(this)">Kopieren</button>
+<pre style="white-space: pre-wrap; overflow-wrap: anywhere; max-width: 100%;"><span class="ph-green"># Verifikations-Prompt — pruefen ob Memory wirklich greift</span>
+<span class="ph-yellow">Test ob claude-mem korrekt laeuft: starte einen neuen
+Chat in deinem Projekt und sage:
+
+{">"} Erinnerst du dich noch was wir in unserer letzten
+   Session gemacht haben? Wenn ja, fasse die drei
+   wichtigsten Decisions oder Files zusammen.
+
+Wenn claude-mem korrekt arbeitet, sollte Claude konkrete
+Sachen aus der vorherigen Session erinnern — Filenamen,
+Tech-Decisions, gefixte Bugs.
+
+Wenn er nichts weiss:
+- npx claude-mem status   (sind die hooks aktiv?)
+- npx claude-mem repair   (Hook-Registrierung reparieren)
+- Claude Code neu starten und nochmal pruefen</span></pre>
+    </div>
+
+    <div class="prompt-box" style="margin-top: 32px; max-width: 100%; box-sizing: border-box; overflow: hidden;">
+      <button class="copy-btn" onclick="copyPrompt(this)">Kopieren</button>
+<pre style="white-space: pre-wrap; overflow-wrap: anywhere; max-width: 100%;"><span class="ph-green"># Session-Handoff-Combo — fuer maximales Gedaechtnis</span>
+<span class="ph-yellow">Am Ende JEDER Session:
+{">"} Mach mir bitte ein kompaktes Session-Handoff:
+   - Was war das Ziel
+   - Welche Files haben wir bearbeitet
+   - Welche Decisions sind gefallen
+   - Was kommt als Naechstes
+   Schreib es als handoff-{Datum}.md in den Projekt-Ordner.
+
+Am Anfang der NAECHSTEN Session:
+{">"} Lies handoff-{Datum}.md durch und mach weiter wo
+   wir aufgehoert haben. (claude-mem laedt parallel den
+   tieferen Kontext automatisch.)
+
+→ claude-mem: was technisch passiert ist (automatisch)
+→ Handoff: was du als Naechstes willst (manuell, kurz)
+→ Beides zusammen = lueckenloses Gedaechtnis</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ APP-FEATURES OVERVIEW ═══════════════ -->
+<section class="pro-tipp bg-card-section" id="apps" style="padding: 100px 0;">
+  <div class="wrap" style="max-width: 1080px;">
+    <div class="section-tag">Was claude-mem konkret macht</div>
+    <h2 style="font-family: var(--font-serif); font-weight: 400; font-size: clamp(36px, 5vw, 56px); line-height: 1.1; letter-spacing: -0.02em; max-width: 18ch; margin-top: 12px;">Ein Plugin, vier <em>Funktionen</em>.</h2>
+
+    <div class="app-grid">
+      <div class="app-card">
+        <div class="app-name"><em>Auto-Capture</em></div>
+        <div class="app-status">Session-Lifecycle Hooks</div>
+        <p>Das Plugin hängt sich automatisch in jede Claude-Session ein und beobachtet alles was passiert: welche Files Claude liest, welche Edits gemacht werden, welche Decisions du triffst. Du musst keinen einzigen Befehl manuell ausführen, alles läuft im Hintergrund über Session-Hooks.</p>
+      </div>
+      <div class="app-card">
+        <div class="app-name"><em>AI-Compression</em></div>
+        <div class="app-status">Komprimiert mit Claude Agent SDK</div>
+        <p>Statt rohe Logs zu speichern komprimiert claude-mem die Sessions intelligent über das offizielle Claude Agent SDK. Nur die wirklich relevanten Decisions, Conventions und Architektur-Stücke landen im Memory — kompakt, durchsuchbar und ohne deinen Context bei der nächsten Session aufzublähen.</p>
+      </div>
+      <div class="app-card">
+        <div class="app-name"><em>Vector-Search</em></div>
+        <div class="app-status">SQLite + ChromaDB lokal</div>
+        <p>Die komprimierten Sessions liegen in einer lokalen SQLite-Datenbank mit ChromaDB Vector-Index. Bei jedem neuen Chat sucht das Plugin semantisch die relevantesten alten Memories und lädt nur die in den Kontext. Komplett lokal, keine Cloud, keine externen API-Calls.</p>
+      </div>
+      <div class="app-card">
+        <div class="app-name"><em>Auto-Inject</em></div>
+        <div class="app-status">Beim Session-Start automatisch</div>
+        <p>Sobald du einen neuen Chat in dem Projekt startest, lädt claude-mem die relevanten Memories aus den alten Sessions und gibt sie Claude beim ersten Token mit rein. Du startest also nie wieder bei Null — egal ob nach einer Stunde, einer Woche oder drei Monaten.</p>
+      </div>
+    </div>
+
+    <div class="section-tag" style="margin-top: 56px;">Das Wichtigste</div>
+    <ul class="body-serif" style="margin-top: 24px; padding-left: 0; list-style: none; font-size: 19px; line-height: 1.7; color: var(--ink);">
+      <li style="padding: 10px 0; border-bottom: 1px solid var(--line);"><strong>Alles läuft lokal.</strong> Die komprimierten Sessions liegen unter ~/.claude-mem auf deinem Rechner — keine Cloud, kein externer Account, kein Vendor-Lock-In. Wenn du das Plugin wieder deinstallieren willst, sind deine Memories einfach lokale Files die du löschen kannst.</li>
+      <li style="padding: 10px 0; border-bottom: 1px solid var(--line);"><strong>Funktioniert auch in anderen Coding-Agents.</strong> Trotz des Namens läuft claude-mem nicht nur in Claude Code. Das Plugin unterstützt auch Codex CLI, Gemini, OpenCode, Hermes und Copilot. Einmal installiert, läuft das Memory über alle Tools synchron.</li>
+      <li style="padding: 10px 0;"><strong>Combiniere mit Session-Handoff.</strong> claude-mem speichert was TECHNISCH passiert ist — Files, Edits, Decisions. Ein manueller Session-Handoff am Ende des Tages ergänzt das mit der STRATEGISCHEN Ebene — was du als nächstes willst. Beides zusammen ist die echte Lückenlos-Lösung.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══════════════ FINAL CTA ═══════════════ -->
+<section class="cta-final" id="final-cta">
+  <div class="wrap">
+    <div class="cta-grid">
+      <div>
+        <div class="hero-tag" style="color: var(--coral);">Community · Early Access</div>
+        <h2>Werde Teil der <span class="underline-dark">SKAILE Community</span>.</h2>
+        <p class="lead-dark">Ich baue gerade eine Community für alle, die Claude Code richtig lernen wollen. Plus du bekommst sofort Zugriff auf alle <span class="underline-dark">50+ Guides, Skills und Plugins</span>, die ich bisher gebaut habe. Workshops, Q&amp;A, alles an einem Ort. Trag dich ein für Early Access.</p>
+      </div>
+      <form class="email-form lead-form" data-placement="final" novalidate>
+        <div class="form-tag">Anmeldung</div>
+        <h3>Early Access sichern</h3>
+        <p class="form-desc">Early Access plus alle 50+ Guides, Skills und Plugins an einem Ort.</p>
+
+        <div class="field">
+          <label for="name">Vorname</label>
+          <input type="text" id="name" name="name" placeholder="dein Vorname" required autocomplete="name">
+        </div>
+
+        <div class="field">
+          <label for="email">E-Mail</label>
+          <input type="email" id="email" name="email" placeholder="deine@email.de" required autocomplete="email">
+        </div>
+
+        <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp-field" aria-hidden="true">
+
+        <button type="submit">Early Access sichern</button>
+
+        <div class="success-msg">
+          <h4>Du stehst auf der Liste.</h4>
+          <p>Vielen Dank! Die SKAILE Community wird gerade noch aufgebaut — du bist auf der Early-Access-Liste und bekommst als einer der ersten Bescheid, sobald es losgeht. Inklusive direktem Zugriff auf alle 50+ Guides, Skills und Plugins.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">SKAILE <em>/</em> AI Consulting</div>
+        <p class="footer-tagline">Sebastian Kauffmann macht KI-Consulting für Unternehmen — entwickelt Lösungen für zeitfressende Arbeitsabläufe. Building in Public seit Tag 1.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sebastian</h4>
+        <a href="https://instagram.com/sebastiankauffmann" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://tiktok.com/@sebastiankauffmann" target="_blank" rel="noopener">TikTok</a>
+        <a href="#final-cta">Early Access</a>
+      </div>
+      <div class="footer-col">
+        <h4>Setup-Guide</h4>
+        <a href="#schritte">Schritt-für-Schritt</a>
+        <a href="#protipp">Setup-Prompt</a>
+        <a href="#apps">Was claude-mem konkret macht</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 SKAILE AI Consulting</span>
+      <span class="footer-legal">
+        <a href="/datenschutz/">Datenschutz</a>
+        <a href="/impressum/">Impressum</a>
+      </span>
+      <span>Building in Public</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════ THREE.JS NETWORK GRAPH ═══════════════ -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.158.0/build/three.module.js"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+const canvas = document.getElementById('network-canvas');
+if (canvas) {
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+  camera.position.z = 10;
+
+  const nodes = [];
+  const lines = [];
+
+  // Center node = Claude
+  const centerGeo = new THREE.SphereGeometry(0.45, 24, 24);
+  const centerMat = new THREE.MeshBasicMaterial({ color: 0xCC785C });
+  const centerNode = new THREE.Mesh(centerGeo, centerMat);
+  scene.add(centerNode);
+
+  // 4 satellite nodes = Word/Excel/PowerPoint/Outlook
+  const satelliteCount = 4;
+  for (let i = 0; i < satelliteCount; i++) {
+    const angle = (i / satelliteCount) * Math.PI * 2;
+    const radius = 4.5;
+    const x = Math.cos(angle) * radius;
+    const y = Math.sin(angle) * radius * 0.6;
+    const z = (Math.random() - 0.5) * 2;
+
+    const geo = new THREE.SphereGeometry(0.26, 18, 18);
+    const mat = new THREE.MeshBasicMaterial({ color: 0xFAFAF7 });
+    const node = new THREE.Mesh(geo, mat);
+    node.position.set(x, y, z);
+    nodes.push(node);
+    scene.add(node);
+
+    const points = [centerNode.position, node.position];
+    const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+    const lineMat = new THREE.LineBasicMaterial({ color: 0xFAFAF7, opacity: 0.22, transparent: true });
+    const line = new THREE.Line(lineGeo, lineMat);
+    lines.push({ line, target: node });
+    scene.add(line);
+  }
+
+  const subCount = 24;
+  const subNodes = [];
+  for (let i = 0; i < subCount; i++) {
+    const parent = nodes[i % nodes.length];
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 0.8 + Math.random() * 0.6;
+    const sx = parent.position.x + Math.cos(angle) * dist;
+    const sy = parent.position.y + Math.sin(angle) * dist;
+    const sz = parent.position.z + (Math.random() - 0.5) * 0.4;
+
+    const geo = new THREE.SphereGeometry(0.06, 8, 8);
+    const mat = new THREE.MeshBasicMaterial({ color: 0xFAFAF7, transparent: true, opacity: 0.4 });
+    const sub = new THREE.Mesh(geo, mat);
+    sub.position.set(sx, sy, sz);
+    subNodes.push({ mesh: sub, parent, offset: angle, dist });
+    scene.add(sub);
+  }
+
+  let t = 0;
+  function animate() {
+    t += 0.003;
+    centerNode.rotation.y += 0.005;
+    centerNode.position.y = Math.sin(t * 2) * 0.05;
+
+    nodes.forEach((n, i) => {
+      const angle = (i / nodes.length) * Math.PI * 2 + t;
+      const radius = 4.5;
+      n.position.x = Math.cos(angle) * radius;
+      n.position.y = Math.sin(angle) * radius * 0.6;
+    });
+
+    subNodes.forEach((s) => {
+      const angle = s.offset + t * 1.6;
+      s.mesh.position.x = s.parent.position.x + Math.cos(angle) * s.dist;
+      s.mesh.position.y = s.parent.position.y + Math.sin(angle) * s.dist;
+    });
+
+    lines.forEach(({ line, target }) => {
+      const points = [centerNode.position, target.position];
+      line.geometry.setFromPoints(points);
+    });
+
+    scene.rotation.y = Math.sin(t * 0.5) * 0.15;
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  function resize() {
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', resize);
+  resize();
+}
+</script>
+
+<script>
+// Copy Master-Prompt
+function copyPrompt(btn) {
+  const promptText = `# Beispiel: Quartalsbericht in 4 Schritten
+
+# 1. In Excel: Datenanalyse
+"Analysiere die Q1-Verkaufszahlen in diesem Workbook
+und identifiziere die drei wichtigsten Trends mit Cell-Citations."
+
+# 2. In Word: Executive-Summary schreiben
+"Schreib eine 1-seitige Executive-Summary basierend auf den
+drei Trends aus Excel. Mit Tracked Changes."
+
+# 3. In PowerPoint: Praesentation erstellen
+"Bau eine 8-Slide-Praesentation aus dem Word-Dokument
+und den Excel-Charts. Live verlinkt mit Excel."
+
+# 4. In Outlook: Versand-Mail
+"Entwirf die Versand-Mail an das Leadership-Team mit
+Anhang Q1-Report.pptx. Tone: knapp, datengetrieben."
+
+# Bonus: Excel-Aenderung -> Slides + Word automatisch synced`;
+
+  navigator.clipboard.writeText(promptText).then(() => {
+    const original = btn.textContent;
+    btn.textContent = 'Kopiert!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// Lead-Capture: 3 forms (hero / mid-page / final) -> 1 webhook
+const WEBHOOK_URL = 'https://n8n-self-host-n8n.qpo7vu.easypanel.host/webhook/lead-mcp-stack';
+
+function showFormError(form, message) {
+  let errorEl = form.querySelector('.form-error');
+  if (!errorEl) {
+    errorEl = document.createElement('div');
+    errorEl.className = 'form-error';
+    errorEl.setAttribute('role', 'alert');
+    form.appendChild(errorEl);
+  }
+  errorEl.textContent = message;
+  errorEl.hidden = false;
+}
+
+function clearFormError(form) {
+  const errorEl = form.querySelector('.form-error');
+  if (errorEl) errorEl.hidden = true;
+}
+
+document.querySelectorAll('form.lead-form').forEach(function (form) {
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    clearFormError(form);
+
+    const placement = form.dataset.placement || 'unknown';
+    const emailInput = form.querySelector('input[type="email"]');
+    const nameInput = form.querySelector('input[name="name"]');
+    const honeypotInput = form.querySelector('input[name="website"]');
+    const btn = form.querySelector('button[type="submit"]');
+    const originalBtnText = btn ? btn.innerHTML : '';
+
+    const email = (emailInput.value || '').trim();
+    const name = (nameInput?.value || '').trim();
+    if (name.length < 2) {
+      showFormError(form, 'Bitte gib deinen Namen ein.');
+      if (nameInput) nameInput.focus();
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showFormError(form, 'Bitte gib eine gültige E-Mail-Adresse ein.');
+      emailInput.focus();
+      return;
+    }
+
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Wird gesendet ...';
+    }
+
+    const data = {
+      name: name,
+      email: email,
+      topic: 'gehirn',
+      source: 'gehirn.skaile.de',
+      placement: placement,
+      website: honeypotInput ? honeypotInput.value : ''
+    };
+
+    try {
+      const res = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error('Submit failed');
+
+      // projekte.skaile.de: Submit -> Redirect zur Academy-Form
+      window.location.href = 'https://academy.skaile.de/form';
+    } catch (err) {
+      console.error('Submit error:', err);
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = originalBtnText;
+      }
+      showFormError(form, 'Etwas ist schiefgelaufen. Bitte nochmal versuchen oder direkt per DM auf Instagram melden.');
+    }
+  });
+});
+
+// Sticky Mobile-CTA
+(function () {
+  const stickyEl = document.getElementById('stickyMobileCta');
+  if (!stickyEl) return;
+  const heroEl = document.querySelector('section.hero');
+  const finalEl = document.getElementById('final-cta');
+
+  function update() {
+    if (!heroEl || !finalEl) return;
+    const heroBottom = heroEl.getBoundingClientRect().bottom;
+    const finalTop = finalEl.getBoundingClientRect().top;
+    const viewportH = window.innerHeight;
+    const shouldShow = heroBottom < 0 && finalTop > viewportH * 0.5;
+    stickyEl.classList.toggle('visible', shouldShow);
+  }
+
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+})();
+</script>
+
+</body>
+</html>
